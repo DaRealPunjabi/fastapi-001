@@ -53,7 +53,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/posts/5",
+					"raw": "http://127.0.0.1:8000/posts/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -64,7 +64,7 @@
 					"port": "8000",
 					"path": [
 						"posts",
-						"5"
+						"1"
 					]
 				}
 			},
