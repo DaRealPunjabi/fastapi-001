@@ -89,6 +89,21 @@ def delete_post(id: int):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
+@app.put("/posts/{id}")
+def update_post(id: int, post: Post):
+    print(post)
+    index = find_index_post(id)
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                             detail=f"post with id: {id} was not found")
+    post_dict = post.dict()
+    post_dict['id'] = id
+    print(my_posts)
+    my_posts[index] = post_dict
+    print(my_posts)
+    #return{'message': 'updated post'}
+    return {"data": post_dict}
+
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
     # print(post)
