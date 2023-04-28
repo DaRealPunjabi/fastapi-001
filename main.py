@@ -23,7 +23,12 @@ def find_post(id):
     for p in my_posts:
         if p["id"] == id:
             return p
-            
+
+def find_index_post(id):
+    for  i, p in enumerate(my_posts):
+        if p['id'] == id:
+            return i
+
 
 @app.get("/")
 def root():
@@ -33,11 +38,6 @@ def root():
 def get_latest_post():
     post = my_posts[len(my_posts)-1]
     return {"data": post}
-
-@app.get("/posts/latest")
-def get_posts():
-    return {"data": my_posts}
-
 
 @app.get("/posts/{id}")
 #def get_post(id: int, response: Response):
@@ -71,6 +71,22 @@ def get_post(id: int):
     return {"post_detail": post}
     #return {"post_detail": f"Here is post {id}"}
     #return {"post_detail": d1}
+
+
+@app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int):
+    #delerting post
+    # # find the index in the arrau that has required ID
+    # my_posts.pop(index)
+    index = find_index_post(id)
+
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                             detail=f"post with id: {id} was not found")
+    my_posts.pop(index)
+    print(my_posts)
+    #return{'message': 'Post was successfully deleted'}
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
