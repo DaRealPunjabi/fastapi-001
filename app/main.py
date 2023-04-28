@@ -88,6 +88,9 @@ def delete_post(id: int):
     #return{'message': 'Post was successfully deleted'}
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+@app.get("/posts")
+def get_posts():
+    return {"data": my_posts}
 
 @app.put("/posts/{id}")
 def update_post(id: int, post: Post):
@@ -116,3 +119,4 @@ def create_posts(post: Post):
     return {"data": post_dict}
 
     # return {"data": post}
+
