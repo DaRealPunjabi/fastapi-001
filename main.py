@@ -29,9 +29,15 @@ def find_post(id):
 def root():
     return {"message": "Hello World ..."}
 
-@app.get("/posts")
+@app.get("/posts/latest")
+def get_latest_post():
+    post = my_posts[len(my_posts)-1]
+    return {"data": post}
+
+@app.get("/posts/latest")
 def get_posts():
     return {"data": my_posts}
+
 
 @app.get("/posts/{id}")
 def get_post(id: int):
