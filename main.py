@@ -2,7 +2,7 @@ from turtle import title
 from typing import Optional
 #from fastapi import Body, FastAPI
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.params import Body
 from pydantic import BaseModel
 from random import randrange
@@ -40,6 +40,7 @@ def get_posts():
 
 
 @app.get("/posts/{id}")
+#def get_post(id: int, response: Response):
 def get_post(id: int):
     print(id)
     print(type(id))
@@ -60,13 +61,19 @@ def get_post(id: int):
  
     #post =  find_post(int(id))
     post =  find_post(id)
+    if not post:
+        # response.status_code = status.HTTP_404_NOT_FOUND
+        # return {'message': f"post with id: {id} was not found"}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"post with id: {id} was not found")
+
     print(post)
     return {"post_detail": post}
     #return {"post_detail": f"Here is post {id}"}
     #return {"post_detail": d1}
 
 
-@app.post("/posts")
+@app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
     # print(post)
     # print(post.dict())
